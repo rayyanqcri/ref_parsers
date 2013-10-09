@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-   RisParser.parse(filename)
+    RisParser.parse(filename)
 
 This returns an array of entries read from that file. Each entry is a Hash of fields -> values.
 
