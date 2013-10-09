@@ -1,6 +1,6 @@
 # RefParsers
 
-TODO: Write a gem description
+Parser for various types of reference file formats. It currently supports RefMan (.ris) and EndNote (.enw)
 
 ## Installation
 
