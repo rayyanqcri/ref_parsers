@@ -18,9 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
-    RisParser.parse(filename)
+    # creates a new parser of type RIS
+    parser = RefParsers::RISParser.new
 
-This returns an array of entries read from that file. Each entry is a Hash of fields -> values.
+    # creates a new parser of type EndNote
+    parser = RefParsers::EndNoteParser.new
+
+    # opens filename and parses it
+    parser.open(filename)
+
+    # parses a string containing the reference source
+    parser.parse(string)  # returns an array of entries, each is a Hash of fields -> values
 
 ## Contributing
 
