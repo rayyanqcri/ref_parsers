@@ -34,6 +34,7 @@ protected
         parsed = parse_line(lines[next_line])
         next_line = next_line + 1
         if parsed
+          stop = false
           if parsed[:key] == "-1"
             parsed[:key] = last_parsed[:key]
             parsed[:value] = "#{last_parsed[:value]} #{parsed[:value]}"
@@ -45,10 +46,13 @@ protected
           last_parsed = parsed
           fields << parsed
         elsif @terminator_key.nil?
+          stop = true
           yield hash_entry(fields)
           return next_line
+        else
+          stop = false
         end
-      end while parsed
+      end until stop
     end
 
     def parse_first_line(line)
