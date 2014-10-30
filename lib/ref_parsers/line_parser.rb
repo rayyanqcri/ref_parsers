@@ -59,7 +59,8 @@ protected
       first = parse_line(line)
       return nil if first.nil?
       raise "First line should start with #{@type_key}" if first[:key] != @type_key
-      raise "#{line}: Reference type should be one of #{@types.inspect}" unless @types.include? first[:value]
+      # lets not check for semantics here, leave it for the library client
+      # raise "#{line}: Reference type should be one of #{@types.inspect}" unless @types.include? first[:value]
       first
     end
 

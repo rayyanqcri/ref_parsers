@@ -1,4 +1,15 @@
 # coding: utf-8
+
+# developemnt instructions:
+# 1- Do your modifications
+# 2- Increase version number in lib/ref_parsers/version.rb
+# 3- gem build ref_parsers.gemspec
+# 4a- test the code by pointing Gemfile entry to ref_parsers path
+# 4b- test by: gem install ref_parsers-VERSION.gem then upgrade version in Gemfile
+# 5- git add, commit and push
+# 6- gem push ref_parsers-VERSION.gem
+
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'ref_parsers/version'
@@ -19,5 +30,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency 'rake', '~> 0'
 end
