@@ -1,4 +1,6 @@
 module RefParsers
+  NEWLINE_MERGER = '     '
+
   class LineParser
     def open(filename)
       parse File.read(filename, encoding: 'UTF-8')
@@ -37,7 +39,7 @@ protected
           stop = false
           if parsed[:key] == "-1"
             parsed[:key] = last_parsed[:key]
-            parsed[:value] = "#{last_parsed[:value]} #{parsed[:value]}"
+            parsed[:value] = "#{last_parsed[:value]}#{NEWLINE_MERGER}#{parsed[:value]}"
             fields.delete_at fields.length - 1
           elsif @terminator_key && parsed[:key] == @terminator_key
             yield hash_entry(fields)
@@ -68,7 +70,7 @@ protected
       return nil if line.nil? || line.match(/^\s*$/)
       m = line.match(@line_regex)
       if m && m.length == @regex_match_length
-        {key: m[@key_regex_order], value: m[@value_regex_order]}
+        {key: m[@key_regex_order], value: m[@value_regex_order].strip}
       else
         {key: "-1", value: line}
       end

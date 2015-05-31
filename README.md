@@ -28,7 +28,17 @@ Or install it yourself as:
     parser.open(filename)
 
     # parses a string containing the reference source
-    parser.parse(string)  # returns an array of entries, each is a Hash of fields -> values
+    parser.parse(string)
+
+The `parse` method returns an array of entries, each is a Hash of fields -> values.
+For formats that enable multiline values, the parser will merge these lines in a single line
+separating them with an amount of spaces defined in `RefParsers::NEWLINE_MERGER`.
+This allows the value to be displayed normally in HTML elements because multiple spaces are collapsed,
+and also allows you to split back the lines, if needed. Example:
+
+    parser.parse(string).each do |entry|
+      article['KW'].split(/#{RefParsers::NEWLINE_MERGER}/)
+    end
 
 ## Contributing
 
