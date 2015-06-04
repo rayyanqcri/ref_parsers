@@ -70,7 +70,7 @@ protected
       return nil if line.nil? || line.match(/^\s*$/)
       m = line.match(@line_regex)
       if m && m.length == @regex_match_length
-        {key: m[@key_regex_order], value: m[@value_regex_order].strip}
+        {key: m[@key_regex_order], value: m[@value_regex_order].try(:strip)}
       else
         {key: "-1", value: line}
       end
