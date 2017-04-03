@@ -58,7 +58,7 @@ protected
     end
 
     def parse_first_line(line)
-      first = parse_line(line)
+      first = parse_line(line, /^\d+/)  # skip leading entry numbers
       return nil if first.nil?
       raise "First line should start with #{@type_key}" if first[:key] != @type_key
       # lets not check for semantics here, leave it for the library client
@@ -66,11 +66,13 @@ protected
       first
     end
 
-    def parse_line(line)
-      return nil if line.nil? || line.match(/^\s*$/)
+    def parse_line(line, *ignores)
+      ignores << /^\s*$/
+      return nil if line.nil? || ignores.any?{|e| line.match(e)}
       m = line.match(@line_regex)
       if m && m.length == @regex_match_length
-        {key: m[@key_regex_order], value: m[@value_regex_order].try(:strip)}
+        value = m[@value_regex_order].strip rescue nil
+        {key: m[@key_regex_order], value: value}
       else
         {key: "-1", value: line}
       end
