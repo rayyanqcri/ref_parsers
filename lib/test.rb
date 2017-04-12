@@ -6,7 +6,8 @@ raise "USAGE: #{__FILE__} <input-file>" if filename.nil?
 parsers = {
   '.ris' => RefParsers::RISParser,
   '.enw' => RefParsers::EndNoteParser,
-  '.nbib' => RefParsers::PubMedParser
+  '.nbib' => RefParsers::PubMedParser,
+  '.ciw' => RefParsers::CIWParser
 }
 klass = parsers[File.extname(filename)]
 if klass
