@@ -70,6 +70,10 @@ protected
           stop = true
           yield hash_entry(fields)
           return next_line
+        elsif next_line >= lines.length
+          stop = true
+          yield hash_entry(fields)
+          return next_line
         else
           stop = false
         end
