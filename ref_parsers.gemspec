@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["github@hammady.net"]
   spec.description   = %q{Parser for various types of reference file formats. It currently supports RefMan (.ris) and EndNote (.enw)}
   spec.summary       = %q{Parser for reference file formats}
-  spec.homepage      = "https://github.com/hammady/ref_parsers"
+  spec.homepage      = "https://github.com/rayyanqcri/ref_parsers"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -31,4 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency 'rake', '~> 0'
+  spec.add_development_dependency 'rspec', '~> 3.5'
+  spec.add_development_dependency 'simplecov', '~> 0.14'
+  spec.add_development_dependency 'coderay', '~> 1.1'
 end
