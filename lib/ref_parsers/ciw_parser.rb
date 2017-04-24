@@ -1,11 +1,7 @@
-
 module RefParsers
- 
-
  class CIWParser < LineParser
 
-
-    def initialize
+   def initialize
      @footer_regex = "EF"
 	 @header_regexes =["FN","VR"]
      @type_key = "PT"
@@ -14,11 +10,7 @@ module RefParsers
      @key_regex_order = 1
      @value_regex_order = 2
      @regex_match_length = 4
- 
-  
     end
-    
-
- end
-
+	
+  end
 end
