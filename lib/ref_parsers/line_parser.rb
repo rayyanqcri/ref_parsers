@@ -105,7 +105,7 @@ protected
 
     def hash_entry(fields)
       entry = {'type' => fields.first[:value]}
-      #fields.delete_at 0
+      fields.delete_at 0
       fields.each do |field|
         if entry[field[:key]].nil? # empty value
           entry[field[:key]] = field[:value]
