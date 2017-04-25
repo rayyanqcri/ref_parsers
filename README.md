@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/rayyanqcri/ref_parsers.svg?branch=master)](https://travis-ci.org/rayyanqcri/ref_parsers)
 
+[![Coverage Status](https://coveralls.io/repos/github/rayyanqcri/ref_parsers/badge.svg?branch=master)](https://coveralls.io/github/rayyanqcri/ref_parsers?branch=master)
+
 # RefParsers
 
 Parser for various types of reference file formats. It currently supports RefMan (.ris), EndNote (.enw) and PubMed Summary (.nbib)
