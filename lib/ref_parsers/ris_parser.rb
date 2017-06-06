@@ -9,6 +9,7 @@ module RefParsers
       @key_regex_order = 1
       @value_regex_order = 3
       @regex_match_length = 4
+      super
     end
     
   end
