@@ -2,17 +2,13 @@ module RefParsers
   NEWLINE_MERGER = '     '
 
   class LineParser
-
     def initialize
-
       hash = {"@type_key" => @type_key, "@key_regex_order" => @key_regex_order, "@line_regex" => @line_regex,
               "@value_regex_order" => @value_regex_order, "@regex_match_length" => @regex_match_length}
 
       missing = hash.select{|k, v| v.nil?}
       raise "#{missing.keys.join(", ")} are missing" unless missing.empty?    
     end
-
-
 
     def open(filename)
       parse File.read(filename, encoding: 'UTF-8')
@@ -127,5 +123,3 @@ protected
     end
   end
 end
-
-
