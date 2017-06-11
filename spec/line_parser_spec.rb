@@ -20,7 +20,6 @@ require 'spec_helper'
   include RefParsers
 
   describe LineParser do
-
     let(:parser) { LineParserChild.new }
 
     describe '.initialize' do
@@ -51,8 +50,9 @@ require 'spec_helper'
       let(:body){double("body")}
       let(:lines){double("line")}
       let(:next_line){double("next_line")}
+      
       before{
-        allow(body).to receive(:split).with(/\n\r|\r\n|\n|\r/) {lines}
+        allow(body).to receive(:split) {lines}
         allow(parser).to receive(:skip_header).with(lines) {next_line}
       }
 
@@ -60,6 +60,7 @@ require 'spec_helper'
         before {
           allow(parser).to receive(:parse_entry).with(lines, next_line) {double}
         }
+        
         it "should return an empty array" do
           expect(parser.parse(body)).to eq([])
         end
@@ -68,6 +69,7 @@ require 'spec_helper'
       context "when parse entry yields once" do
         let(:new_next_line) {double("new_next_line")}
         let(:entry) {double("entry")}
+        
         before {
           allow(parser).to receive(:parse_entry).with(lines, next_line).and_yield(entry).and_return(new_next_line)
           allow(parser).to receive(:parse_entry).with(lines, new_next_line) {double}
@@ -79,6 +81,7 @@ require 'spec_helper'
 
         context "when parse entry yields twice" do
           let(:final_next_line) {double("final_next_line")}
+          
           before {
             allow(parser).to receive(:parse_entry).with(lines, new_next_line).and_yield(entry).and_return(final_next_line)
             allow(parser).to receive(:parse_entry).with(lines, final_next_line) {double}
@@ -147,9 +150,11 @@ require 'spec_helper'
       context "if the length of the lines are greater than next line" do
         let(:lines){double("lines")}
         let(:next_line){1}
+        
         before {
           allow(lines).to receive(:length) {0}
         }
+        
         it "should return next line" do
           expect(parser.send(:parse_entry, lines, next_line)).to eq(next_line)
         end
@@ -189,7 +194,7 @@ require 'spec_helper'
             let(:first){{footer: true}}
 
             it "should return nil" do
-            expect(parser.send(:parse_entry, lines, next_line)).to eq(nil)
+              expect(parser.send(:parse_entry, lines, next_line)).to eq(nil)
             end
           end
 
@@ -210,7 +215,6 @@ require 'spec_helper'
               before {
                 allow(parser).to receive(:parse_line).with(lines[next_line + 1]) {parsed}
                 allow(parser).to receive(:parse_line).with(nil) {nil}
-
               }
 
               context "if parsed[:footer] is not nil or false" do
@@ -233,17 +237,18 @@ require 'spec_helper'
                     expect { |b|
                       ret = parser.send(:parse_entry, lines, next_line, &b)
                       expect(ret).to eq(next_line + 3)
-                  }.to yield_with_args(hash_entry)
+                    }.to yield_with_args(hash_entry)
                   end
                 end
-
 
                 context "if @terminator_key is not nil or false and parsed[:key] == @terminator_key" do
                   let(:hash_entry){double("terminator_key and parsed[:key]")}
                   let(:parsed){{key: terminator_key}}
+                  
                   before {
                     parser.instance_variable_set('@terminator_key',terminator_key)
                   }
+                  
                   it_behaves_like "yield and return next_line"
                 end
               end
@@ -264,6 +269,7 @@ require 'spec_helper'
                 before {
                   parser.instance_variable_set('@terminator_key', terminator_key)
                 }
+                
                 let(:hash_entry){"line_length"}
                 it_behaves_like "yield and return next_line"
               end
@@ -291,9 +297,9 @@ require 'spec_helper'
     end
 
     describe '#parse_first_line' do
-
       context "when the line is nil" do
         let(:answer) {nil}
+        
         before {
           allow(parser).to receive(:parse_line).with(nil, /^\d+/) {answer}
         }
@@ -329,6 +335,7 @@ require 'spec_helper'
           before {
             allow(parser).to receive(:parse_line).with(line, /^\d+/) {answer}
           }
+          
           #type_key is "0"
           it "should raise an error with the error message First line should start with #{@type_key}" do
             expect{parser.send(:parse_first_line,line)}.to raise_error(RuntimeError, "First line should start with 0")
@@ -405,8 +412,6 @@ require 'spec_helper'
         end
       end
 
-
-
       context "if the line matches the footer"  do
         let(:line) {'valid_footer'}
         let(:answer) {double}
@@ -424,6 +429,7 @@ require 'spec_helper'
       context "when the line doesn't match the footer" do
         let(:line){"valid line"}
         let(:continue_result){{key: "-1", value: line}}
+        
         before {
           allow(parser).to receive(:detect_footer).with(line) {nil}
           allow(line).to receive(:match).with(/^\s*$/) {false}
@@ -483,8 +489,10 @@ require 'spec_helper'
       let(:key){double}
       let(:key_value){double}
       let(:key_hash){{:key => key, :value => key_value}}
+      
       context "if fields only contains the type" do
         let(:fields){[{:value => value}]}
+        
         it "should return an hash with just the type" do
           expect(parser.send(:hash_entry,fields)).to eq({'type' => value})
         end
@@ -492,6 +500,7 @@ require 'spec_helper'
 
       context "if the fields contatin the type and just a single key" do
         let(:fields){[{:value => value}, key_hash]}
+        
         it "should return an hash with the with the type and the key" do
           expect(parser.send(:hash_entry, fields)).to eq('type' => value, key => key_value)
         end
@@ -499,6 +508,7 @@ require 'spec_helper'
 
       context "if the fields contain the type and two hashes which repeat a key" do
         let(:fields){[{:value => value}, key_hash, key_hash]}
+        
         it "should return an hash with the type and the repeated key contains an array" do
           expect(parser.send(:hash_entry, fields)).to eq({'type' => value, key => [key_value, key_value]})
         end
@@ -506,6 +516,7 @@ require 'spec_helper'
 
       context "if the fields contain the type along with two hashes which repeat a key (one of the values is an array)" do
         let(:fields){[{:value => value}, {:key => key, :value => [key_value]}, key_hash]}
+        
         it "should return an hash with the type and the repeated key's value should be an array" do
           expect(parser.send(:hash_entry, fields)).to eq({'type' => value, key => [key_value, key_value]})
         end
@@ -513,6 +524,7 @@ require 'spec_helper'
 
       context "if the field contains three repeated keys along with the type" do
         let(:fields){[{:value => value}, key_hash, key_hash, key_hash]}
+        
         it "should return an hash with the type and the repeated key's value should be an array" do
           expect(parser.send(:hash_entry, fields)).to eq({'type' => value, key => [key_value, key_value, key_value]})
         end
