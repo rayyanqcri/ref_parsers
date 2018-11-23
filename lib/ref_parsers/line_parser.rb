@@ -1,6 +1,18 @@
 module RefParsers
   NEWLINE_MERGER = '     '
 
+  class LineParsingException < StandardError
+    attr_reader :line_number
+    attr_reader :line_string
+
+    def initialize(message, line_number, line_string, innerException = nil)
+      super("#{message} #{'(See inner exception for details)' if innerException} | Line# #{line_number} | Line Text: #{line_string}")
+      self.set_backtrace(innerException.backtrace) if innerException
+      @line_number = line_number
+      @line_string = line_string
+    end
+  end
+
   class LineParser
     def initialize
       hash = {"@type_key" => @type_key, "@key_regex_order" => @key_regex_order, "@line_regex" => @line_regex,
@@ -29,7 +41,6 @@ module RefParsers
     end
 
 protected
-
     def skip_header(lines)
       return 0 unless @header_regexes
       next_line = 0
@@ -49,7 +60,12 @@ protected
     def parse_entry(lines, next_line)
       begin
         return next_line if next_line >= lines.length
-        first = parse_first_line(lines[next_line])
+        line_text = lines[next_line]
+        begin
+          first = parse_first_line(line_text)
+        rescue => ex
+          raise LineParsingException.new("Error parsing first line", next_line, line_text, ex)
+        end
         next_line = next_line + 1
       end while first.nil?
 
