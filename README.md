@@ -43,6 +43,13 @@ and also allows you to split back the lines, if needed. Example:
       article['KW'].split(/#{RefParsers::NEWLINE_MERGER}/)
     end
 
+## Testing
+
+RefParsers uses [RSpec](http://rspec.info/) for testing. To run tests:
+
+    rake
+
+
 ## Contributing
 
 1. Fork it
