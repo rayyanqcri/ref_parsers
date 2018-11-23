@@ -37,12 +37,25 @@ require 'spec_helper'
     end
 
     describe '#open' do
-      let(:filename) { 'spec/support/example.txt' }
-      let(:body) { "example content\n" }
+      #A little bit testing the framework rather than this library code, but this is useful for documentation and making sure no regressions.
+      context "when opening a UTF-8 file that has a BOM bytes" do
+          let(:filename) { 'spec/support/example_utf8_with_bom.txt' }
+          let(:body) { "مثال لمحتوى - Example content\n" } #UTF-8 Text 
 
-      it 'calls parse with the contents of the input file' do
-        expect(parser).to receive(:parse).with(body)
-        parser.open(filename)
+          it 'calls parse with the contents of the input file' do
+            expect(parser).to receive(:parse).with(body)
+            parser.open(filename)
+          end
+      end
+
+      context "when opening a file with UTF-8 format" do
+          let(:filename) { 'spec/support/example_utf8_without_bom.txt' }
+          let(:body) { "مثال لمحتوى - Example content\n" } #UTF-8 Text 
+
+          it 'calls parse with the contents of the input file in utf-8' do
+            expect(parser).to receive(:parse).with(body)
+            parser.open(filename)
+          end
       end
     end
 
@@ -159,7 +172,7 @@ require 'spec_helper'
           expect(parser.send(:parse_entry, lines, next_line)).to eq(next_line)
         end
       end
-
+      
       context "if the length of the lines isn't greater than next line" do
         let(:lines){[double("lines"), double("lines2")]}
         let(:next_line){0}

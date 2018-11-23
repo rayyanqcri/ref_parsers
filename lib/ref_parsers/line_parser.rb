@@ -24,7 +24,7 @@ module RefParsers
     end
 
     def open(filename)
-      parse File.read(filename, encoding: 'UTF-8')
+      parse File.read(filename, mode: 'r:bom|UTF-8')
     end
 
     def parse(body)
