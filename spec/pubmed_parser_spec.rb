@@ -10,4 +10,8 @@ describe PubMedParser do
       parser.open 'spec/support/example.nbib'
     end
   end
+
+  it 'should have the friendly_name' do
+      expect(parser.friendly_name()).to eq("PubMed/NBIB Parser")
+  end
 end
