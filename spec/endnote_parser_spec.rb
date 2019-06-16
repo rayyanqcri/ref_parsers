@@ -9,5 +9,9 @@ describe EndNoteParser do
     it 'parses the input file correctly' do
       parser.open 'spec/support/example.enw'
     end
+
+    it 'should have the friendly_name' do
+      expect(parser.friendly_name()).to eq("EndNote/ENW Parser")
+    end
   end
 end

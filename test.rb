@@ -8,14 +8,14 @@ require 'ref_parsers'
 filename = ARGV[0]
 raise "USAGE: #{__FILE__} <input-file>" if filename.nil?
 parsers = {
-  '.ris' => RefParsers::RISParser,
-  '.enw' => RefParsers::EndNoteParser,
-  '.nbib' => RefParsers::PubMedParser,
-  '.ciw' => RefParsers::CIWParser
+  '.ris' => lambda {RefParsers::RISParser.new(:import_entry)},
+  '.enw' => lambda {RefParsers::EndNoteParser.new()},
+  '.nbib' => lambda {RefParsers::PubMedParser.new()},
+  '.ciw' => lambda {RefParsers::CIWParser.new(:import_entry)}
 }
-klass = parsers[File.extname(filename)]
-if klass
-  klass.new.open(ARGV[0]).each do |entry|
+parser_fac = parsers[File.extname(filename)]
+if parser_fac
+  parser_fac.call().open(ARGV[0]).each do |entry|
     puts "Entry"
     entry.each do |k, v|
       puts "  #{k}: #{v}"

@@ -9,5 +9,9 @@ describe RISParser do
     it 'parses the input file correctly' do
       parser.open 'spec/support/example.ris'
     end
+
+    it 'should have the friendly_name' do
+      expect(parser.friendly_name()).to eq("Refman/RIS Parser")
+    end
   end
 end

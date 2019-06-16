@@ -1,7 +1,7 @@
 module RefParsers
   class RISParser < LineParser
 
-    def initialize
+    def initialize(missing_type_key_action=:raise_exception)
       @type_key = "TY"
       @types = %w(ABST ADVS ART BILL BOOK CASE CHAP COMP CONF CTLG DATA ELEC GEN HEAR ICOMM INPR JFULL JOUR EJOUR MAP MGZN MPCT MUSIC NEWS PAMP PAT PCOMM RPRT SER SLIDE SOUND STAT THES UNBILl UNPB VIDEO)
       @terminator_key = "ER"
@@ -9,8 +9,12 @@ module RefParsers
       @key_regex_order = 1
       @value_regex_order = 3
       @regex_match_length = 4
-      super
+      @missing_type_key_action = missing_type_key_action
+      super()
     end
     
+    def friendly_name()
+      "Refman/RIS Parser"
+    end	
   end
 end

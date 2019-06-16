@@ -1,7 +1,7 @@
 module RefParsers
  class CIWParser < LineParser
 
-   def initialize
+   def initialize(missing_type_key_action=:raise_exception)
      @footer_regex = /^EF\s*$/
      @header_regexes = [/^FN/, /^VR/]
      @type_key = "PT"
@@ -10,8 +10,12 @@ module RefParsers
      @key_regex_order = 1
      @value_regex_order = 2
      @regex_match_length = 4
-     super
+     @missing_type_key_action = missing_type_key_action
+     super()
     end
-	
+
+    def friendly_name()
+      "Web of Science/CIW Parser"
+    end	
   end
 end
