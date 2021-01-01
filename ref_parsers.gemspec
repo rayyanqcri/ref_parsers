@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["github@hammady.net"]
   spec.description   = %q{Parser for various types of reference file formats. It currently supports RefMan (.ris) and EndNote (.enw)}
   spec.summary       = %q{Parser for reference file formats}
-  spec.homepage      = "https://github.com/rayyanqcri/ref_parsers"
+  spec.homepage      = "https://github.com/rayyansys/ref_parsers"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
