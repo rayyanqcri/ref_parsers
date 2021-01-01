@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ref_parsers (0.2.0)
+    ref_parsers (0.2.1)
 
 GEM
   remote: https://rubygems.org/
@@ -52,4 +52,4 @@ DEPENDENCIES
   rspec (~> 3.5)
 
 BUNDLED WITH
-   1.16.4
+   1.17.3
