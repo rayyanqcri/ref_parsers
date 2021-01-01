@@ -43,12 +43,36 @@ and also allows you to split back the lines, if needed. Example:
       article['KW'].split(/#{RefParsers::NEWLINE_MERGER}/)
     end
 
-## Testing
+## Development and Testing
 
-RefParsers uses [RSpec](http://rspec.info/) for testing. To run tests:
+To build for local development and testing (requires Docker):
 
-    rake
+```bash
+docker build . -t ref_parsers:1
+```
 
+To run the tests:
+
+```bash
+docker run -it --rm -v $PWD:/home ref_parsers:1
+```
+
+This will allow you to edit files and re-run the tests without rebuilding
+the image.
+
+## Publishing the gem
+
+```bash
+docker build . -t ref_parsers:1
+docker run -it --rm ref_parsers:1 /home/publish.sh
+```
+
+Enter your email and password when prompted. If you want to skip interactive
+login, supply `RUBYGEMS_API_KEY` as an additional argument:
+
+```bash
+docker run -it --rm -e RUBYGEMS_API_KEY=YOUR_RUBYGEMS_API_KEY ref_parsers:1 /home/publish.sh
+```
 
 ## Contributing
 
